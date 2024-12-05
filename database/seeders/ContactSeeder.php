@@ -13,7 +13,7 @@ class ContactSeeder extends Seeder
      */
     public function run(): void
     {
-        for ($i=0; $i <=9 ; $i++) { 
+        for ($i=0; $i <=90 ; $i++) { 
             Contact::create([
                 'dni'=>'01234'.$i,
                 'name'=>'Contacto numero :00'.$i,
