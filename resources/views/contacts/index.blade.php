@@ -6,6 +6,11 @@
         Listado de Contactos
     </x-slot>
 
+    @if (session('MensajeDeExito'))
+        <div class="m-2 text-center border border-success">
+            {{ session('MensajeDeExito') }}
+        </div>
+    @endif
     <table class="table table-dark table-striped">
         <thead>
             <th>DNI</th>
@@ -22,9 +27,7 @@
                     <td>{{ $contact->surname }}</td>
                     <td>{{ $contact->phone }}</td>
                     <td>
-                        <a 
-                        class="btn btn-secondary"
-                        href="{{ route('contacts.show',$contact->id) }}">
+                        <a class="btn btn-secondary" href="{{ route('contacts.show', $contact->id) }}">
                             Ver
                         </a>
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreContactRequest;
 use App\Models\Contact;
 use Illuminate\Http\Request;
 
@@ -12,6 +13,7 @@ class ContactController extends Controller
         try {
 
             $contacts = Contact::query()
+                ->orderBy('id', 'DESC')
                 ->paginate(10);
 
 
@@ -40,6 +42,33 @@ class ContactController extends Controller
             return view('contacts.show', [
                 'contact' => $contact
             ]);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    public function store(StoreContactRequest $request)
+    {
+        try {
+
+            /* $data = $request->validate([
+                'dni' => ['required', 'unique:contacts,dni', 'string', 'min:5', 'max:100'],
+                'name' => ['required', 'string', 'min:5', 'max:100'],
+                'surname' => ['required', 'string', 'min:5', 'max:100'],
+                'phone' => ['required', 'string', 'min:5', 'max:100'],
+            ]); */
+
+            /* Para redirigir a la ruta show */
+            /* $newContact=Contact::create($data);
+            return to_route('contacts.show',$newContact); */
+
+            $data = $request->validated();
+
+            Contact::create($data);
+
+            $message = 'Contacto Creado Exitosamente: ' . $data['name'] . ' ' . $data['surname'];
+
+            return to_route('contacts.index')->with('MensajeDeExito', $message);
         } catch (\Throwable $th) {
             throw $th;
         }
