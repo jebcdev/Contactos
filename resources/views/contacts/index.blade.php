@@ -13,6 +13,7 @@
     @endif
     <table class="table table-dark table-striped">
         <thead>
+            <th>Id</th>
             <th>DNI</th>
             <th>Nombre</th>
             <th>Apellido</th>
@@ -22,14 +23,33 @@
         <tbody>
             @foreach ($contacts as $contact)
                 <tr>
-                    <td>{{ $contact->dni }}</td>
+                    <td>{{ $contact->id }}</td>
+                    <td>
+                        <a class="link-secondary"
+                        href="{{ route('contacts.show', $contact->id) }}"
+                        >{{ $contact->dni }}</a>
+                        </td>
                     <td>{{ $contact->name }}</td>
                     <td>{{ $contact->surname }}</td>
                     <td>{{ $contact->phone }}</td>
                     <td>
-                        <a class="btn btn-secondary" href="{{ route('contacts.show', $contact->id) }}">
+                        <a class="btn btn-secondary" href="{{ route('contacts.show', $contact) }}">
                             Ver
                         </a>
+
+                        <a class="btn btn-secondary" href="{{ route('contacts.edit', $contact) }}">
+                            Editar
+                        </a>
+
+                        <form action="{{ route('contacts.destroy',$contact) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button
+                            class="btn btn-danger"
+                            type="submit"
+                            onclick="return confirm('Esta Segur@?')"
+                            >Eliminar</button>
+                        </form>
 
                     </td>
                 </tr>

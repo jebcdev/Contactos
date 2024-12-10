@@ -23,4 +23,21 @@
         <h2>Teléfono</h2>
         <b>{{ $contact->phone }}</b>
     </p>
+
+    <div class="mt-4 text-center row">
+        <div class="col">
+            <a
+        class="btn btn-secondary"
+         href="{{ route('contacts.index') }}">
+            Volver
+        </a>
+        </div>
+        <div class="col">
+            <a
+            class="btn btn-secondary"
+             href="{{ route('contacts.edit',$contact->id) }}">
+                Editar
+            </a>
+        </div>
+    </div>
 </x-layout>

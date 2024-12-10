@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreContactRequest;
+use App\Http\Requests\UpdateContactRequest;
 use App\Models\Contact;
 use Illuminate\Http\Request;
+
+use function PHPUnit\Framework\returnSelf;
 
 class ContactController extends Controller
 {
@@ -35,10 +38,10 @@ class ContactController extends Controller
         }
     }
 
-    public function show($id)
+    public function show(Contact $contact)
     {
         try {
-            $contact = Contact::findOrFail($id);
+
             return view('contacts.show', [
                 'contact' => $contact
             ]);
@@ -74,12 +77,58 @@ class ContactController extends Controller
         }
     }
 
+    public function edit(Contact $contact)
+    {
+        try {
+
+
+            return view('contacts.edit', [
+                'contact' => $contact
+            ]);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    public function update(UpdateContactRequest $request, Contact $contact)
+    {
+        try {
+
+
+            $data = $request->validated();
+
+            $contact->update($data);
+
+            $message = 'Contacto Actualizado Exitosamente: ' . $data['name'] . ' ' . $data['surname'];
+
+            return to_route('contacts.index')->with('MensajeDeExito', $message);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    public function destroy(Contact $contact)
+    {
+        try {
+
+            $data = $contact;
+
+            $contact->delete();
+
+            $message = 'Contacto Eliminado Exitosamente: ' . $data['name'] . ' ' . $data['surname'];
+
+            return to_route('contacts.index')->with('MensajeDeExito', $message);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
     /* 
     * create=>Mostrar formulario de creacion
-    store=> guardar
+    *store=> guardar
     *show=>detalles del registro
-    edit=>formulario de edicion
-    update=>guardar info actualizada
+    *edit=>formulario de edicion
+    *update=>guardar info actualizada
     delete=>eliminar recursos 
     
     */
